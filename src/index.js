@@ -9,9 +9,15 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://anntechnobyraj.netlify.app'
+];
+
 app.use(cors({
-  origin: 'https://anntechnobyraj.netlify.app/', // ✅ Remove trailing slash for consistency
+  origin: allowedOrigins,
 }));
+
 
 // Routes
 app.use('/api', apirouter);
