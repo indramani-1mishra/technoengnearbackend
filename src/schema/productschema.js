@@ -68,9 +68,16 @@ const productschema = new mongoose.Schema({
     type: String,
     default: ""
   },
+  airflow:{
+    type:String
+  },
   category:{
     type:String,
      
+  }
+  ,
+ color: {
+       type:String,
   }
 },{
     timestamps:true

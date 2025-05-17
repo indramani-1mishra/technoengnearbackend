@@ -1,3 +1,4 @@
+const { search } = require("../router/apiroutes");
 const productModel = require("../schema/productschema");
 
 // ✅ Create Product
@@ -67,10 +68,25 @@ const deleteProduct = async (id) => {
   }
 };
 
+const findProductByCategoryOrName = async (searchTerm) => {
+  try {
+    const response = await productModel.find({
+      $or: [
+        { category: searchTerm },
+        { name: searchTerm }
+      ]
+    });
+    return response;
+  } catch (error) {
+    throw { message: "Cannot find product" };
+  }
+};
+
 module.exports = {
   createProduct,
   getAllProducts,
   getProductById,
   updateProduct,
   deleteProduct,
+  findProductByCategoryOrName
 };

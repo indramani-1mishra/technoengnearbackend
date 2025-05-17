@@ -1,6 +1,6 @@
 // service/productService.js
 
-const { createProduct, getAllProducts, getProductById, updateProduct, deleteProduct } = require("../repository/productrepository");
+const { createProduct, getAllProducts, getProductById, updateProduct, deleteProduct, findProductByCategoryOrName } = require("../repository/productrepository");
 const cloudinary = require("../config/cloudneryconfig");
 const fs = require('fs');
 
@@ -115,10 +115,22 @@ const deleteproducts = async (productId) => {
   }
 };
 
+
+const getProductByCategoryOrName = async (searchTerm) => {
+  try {
+    const response = await findProductByCategoryOrName(searchTerm);
+    return response;
+  } catch (error) {
+    console.error("Error in fetching product:", error.message);
+    throw error;
+  }
+};
+
 module.exports = {
   createproducts,
   getProducts,
   getProduct,
   updateproducts,
-  deleteproducts
+  deleteproducts,
+  getProductByCategoryOrName
 };

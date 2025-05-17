@@ -1,6 +1,6 @@
 // controller/productcontroller.js
 
-const { createproducts, getProducts, getProduct, updateproducts, deleteproducts } = require("../service/productservice");
+const { createproducts, getProducts, getProduct, updateproducts, deleteproducts, getProductByCategoryOrName } = require("../service/productservice");
 
 // Create Product
 const createproductc = async (req, res) => {
@@ -145,6 +145,28 @@ const deleteproductc = async (req, res) => {
     });
   }
 };
+const fetchProductByCategoryOrName = async (req, res) => {
+  try {
+    const { searchTerm } = req.params;
+    console.log("Search term:", searchTerm);
+
+    if (!searchTerm) {
+      return res.status(400).json({ message: "Search parameter is required." });
+    }
+
+    const product = await getProductByCategoryOrName(searchTerm);
+
+    if (!product || product.length === 0) {
+      return res.status(404).json({ message: "No product found with the given category or name." });
+    }
+
+    return res.status(200).json({ success: true, data: product });
+  } catch (error) {
+    console.error("Controller Error:", error.message);
+    return res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
 
 module.exports = {
   createproductc,
@@ -152,4 +174,5 @@ module.exports = {
   getproductbyidc,
   updateproductc,
   deleteproductc,
+  fetchProductByCategoryOrName
 };
