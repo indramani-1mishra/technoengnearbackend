@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const productschema = new mongoose.Schema({
+const productSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -43,46 +43,52 @@ const productschema = new mongoose.Schema({
     type: String,
     default: "Industrial Use"
   },
-  features: {
-    type: [String],
-    default: [
-      "Remove water 60 liters per 24 hours period",
-      "Automatic humidity control, Adjustable RH10-95%",
-      "Display humidity trouble",
-      "Auto shut off when tank is full",
-      "Continuous Drain Option",
-      "Washable, pre filter",
-      "Humidity Set at will, humidity control",
-      "Set off from 1 hour to 24 hours",
-      "3 minutes delay for protecting the compressor",
-      "The transducer can examine itself",
-      "Automatic defrost system, suitable for low & high temperature",
-      "The unit is more reliable"
-    ]
-  },
+
   image: {
-    type: String, // URL list or file paths
+    type: String,
     default: ''
   },
-  brochureUrl: {
+
+  airflow: {
     type: String,
-    default: ""
+    default: ''
   },
-  airflow:{
-    type:String
+
+  color: {
+    type: String,
+    default: ''
   },
-  category:{
-    type:String,
-     
+
+  category: {
+    type: String,
+    enum: ['Portable Dehumidifier',"Industrial Dehumidifier", 'Desiccant Dehumidifier', 'Ultrasonic Humidifier'],
+    required: true
+  },
+
+  features: {
+    type: [String],
+    default: []
+  },
+
+  specialFeatures: {
+    type: [String],
+    default: []
+  },
+
+  technicalSpecs: {
+    type: Map,
+    of: String,
+    default: {}
+  },
+
+ 
+  externalLinks: {
+    type: [String],
+    default: []
   }
-  ,
- color: {
-       type:String,
-  }
-},{
-    timestamps:true
+}, {
+  timestamps: true
 });
 
-
- const productModel= mongoose.model('products',productschema);
-module.exports =productModel;
+const Product = mongoose.model('Product', productSchema);
+module.exports = Product;
