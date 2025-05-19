@@ -5,7 +5,32 @@ const { createproducts, getProducts, getProduct, updateproducts, deleteproducts,
 // Create Product
 const createproductc = async (req, res) => {
   try {
-    const response = await createproducts({
+    // Parse JSON strings if sent via FormData
+    const features = req.body.features
+      ? typeof req.body.features === 'string'
+        ? JSON.parse(req.body.features)
+        : req.body.features
+      : [];
+
+    const specialFeatures = req.body.specialFeatures
+      ? typeof req.body.specialFeatures === 'string'
+        ? JSON.parse(req.body.specialFeatures)
+        : req.body.specialFeatures
+      : [];
+
+    const technicalSpecs = req.body.technicalSpecs
+      ? typeof req.body.technicalSpecs === 'string'
+        ? JSON.parse(req.body.technicalSpecs)
+        : req.body.technicalSpecs
+      : {};
+
+    const externalLinks = req.body.externalLinks
+      ? typeof req.body.externalLinks === 'string'
+        ? JSON.parse(req.body.externalLinks)
+        : req.body.externalLinks
+      : [];
+
+    const productData = {
       name: req.body.name,
       price: req.body.price,
       minOrderQty: req.body.minOrderQty,
@@ -16,23 +41,30 @@ const createproductc = async (req, res) => {
       voltage: req.body.voltage,
       modelType: req.body.modelType,
       application: req.body.application,
-      features: req.body.features,
-      image: req.file ? req.file.path : null, // Image is optional, so add conditional check
       brochureUrl: req.body.brochureUrl,
+      airflow: req.body.airflow,
+      color: req.body.color,
       category: req.body.category,
-    });
+      features,
+      specialFeatures,
+      technicalSpecs,
+      externalLinks,
+      image: req.file ? req.file.path : '',
+    };
+
+    const response = await createproducts(productData);
 
     return res.status(201).json({
-      message: "Product created successfully",
+      message: 'Product created successfully',
       status: 201,
       data: response,
       error: {},
     });
   } catch (error) {
-    console.log(error);
-    return res.status(404).json({
-      message: "Failed to create product",
-      status: 404,
+    console.error('Error creating product:', error);
+    return res.status(500).json({
+      message: 'Failed to create product',
+      status: 500,
       data: {},
       error: error.message,
     });
