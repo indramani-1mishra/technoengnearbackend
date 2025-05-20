@@ -62,7 +62,7 @@ const productSchema = new mongoose.Schema({
 
   category: {
     type: String,
-    enum: ['Portable Dehumidifier',"Industrial Dehumidifier", 'Desiccant Dehumidifier', 'Ultrasonic Humidifier','Ceiling Mounted Dehumidifier','other'],
+    enum: ['Dehumidifires',"Industrial Dehumidifier", 'Desiccant Dehumidifier', 'Ultrasonic Humidifier','Ceiling Mounted Dehumidifier','other'],
     required: true
   },
 
