@@ -15,11 +15,11 @@ const createproducts = async (productdetails) => {
 
     // Upload all images to Cloudinary
     const uploadedImages = await Promise.all(
-      images.map(async (imgPath) => {
-        const uploadRes = await cloudinary.uploader.upload(imgPath);
+      images.map(async (imgObj) => {
+        const uploadRes = await cloudinary.uploader.upload(imgObj.path); // ✅ FIXED
         // Delete local file after upload
-        if (fs.existsSync(imgPath)) {
-          fs.unlinkSync(imgPath);
+        if (fs.existsSync(imgObj.path)) {
+          fs.unlinkSync(imgObj.path); // ✅ FIXED
         }
         return uploadRes.secure_url;
       })
@@ -28,7 +28,7 @@ const createproducts = async (productdetails) => {
     // Save to database
     const response = await createProduct({
       ...productdetails,
-      images: uploadedImages, // Store array of Cloudinary URLs
+      images: uploadedImages, // ✅ Save Cloudinary URLs only
     });
 
     if (!response) {
@@ -41,6 +41,7 @@ const createproducts = async (productdetails) => {
     throw error;
   }
 };
+
 
 // Get All Products
 const getProducts = async () => {
