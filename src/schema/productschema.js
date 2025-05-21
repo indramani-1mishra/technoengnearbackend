@@ -3,51 +3,23 @@ const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema({
  name: {
-    type: String,
-    
-    
+    type: String, 
   },
-  price: {
-    type: Number,
-    required: true,
-    default: 55500
-  },
+ 
   minOrderQty: {
     type: Number,
     default: 2
   },
-  capacity: {
-    type: String,
-    default: "10L"
-  },
-  usage: {
-    type: String,
-    default: "For Industrial"
-  },
-  material: {
-    type: String,
-    default: "Stainless Steel"
-  },
-  brand: {
+ brand: {
     type: String,
     default: "ate (ANN Techno Engineer)"
   },
-  voltage: {
-    type: String,
-    default: "220 V 50Hz"
-  },
-  modelType: {
-    type: String,
-    default: "ate10UHSS"
-  },
-  application: {
-    type: String,
-    default: "Industrial Use"
-  },
+
+
 
   image: {
-    type: String,
-    default: ''
+    type: [String],
+    
   },
 
   airflow: {

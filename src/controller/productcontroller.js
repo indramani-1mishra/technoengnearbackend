@@ -32,24 +32,22 @@ const createproductc = async (req, res) => {
 
     const productData = {
       name: req.body.name,
-      price: req.body.price,
+      
       minOrderQty: req.body.minOrderQty,
-      capacity: req.body.capacity,
-      usage: req.body.usage,
-      material: req.body.material,
+     
       brand: req.body.brand,
-      voltage: req.body.voltage,
-      modelType: req.body.modelType,
+     
+      
       application: req.body.application,
       brochureUrl: req.body.brochureUrl,
-      airflow: req.body.airflow,
+      
       color: req.body.color,
       category: req.body.category,
       features,
       specialFeatures,
       technicalSpecs,
       externalLinks,
-      image: req.file ? req.file.path : '',
+      image: req.files ? req.files : '',
     };
 
     const response = await createproducts(productData);

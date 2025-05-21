@@ -11,7 +11,7 @@ const upload = require('../../middleware/multer');
 
 const productrouter = express.Router();
 
-productrouter.post('/', upload.single('image'), createproductc);
+productrouter.post('/', upload.array('image',3), createproductc);
 productrouter.get('/', getproductsc);
 productrouter.get('/search/:searchTerm', fetchProductByCategoryOrName); // ✅ fixed route
 productrouter.get('/:id', getproductbyidc);

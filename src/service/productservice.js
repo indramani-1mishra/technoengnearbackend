@@ -7,29 +7,32 @@ const fs = require('fs');
 // Create Product
 const createproducts = async (productdetails) => {
   try {
-    const image = productdetails.image;
+    const images = productdetails.image;
 
-    if (!image) {
-      throw ({ message: 'Image is required' });
+    if (!images || images.length === 0) {
+      throw new Error('At least one image is required');
     }
 
-    // Upload to Cloudinary
-    const cloudinaryUpload = await cloudinary.uploader.upload(image);
-    const secureUrl = cloudinaryUpload.secure_url;
-
-    // Delete local file after upload
-    if (fs.existsSync(image)) {
-      fs.unlinkSync(image); // delete local image file
-    }
+    // Upload all images to Cloudinary
+    const uploadedImages = await Promise.all(
+      images.map(async (imgPath) => {
+        const uploadRes = await cloudinary.uploader.upload(imgPath);
+        // Delete local file after upload
+        if (fs.existsSync(imgPath)) {
+          fs.unlinkSync(imgPath);
+        }
+        return uploadRes.secure_url;
+      })
+    );
 
     // Save to database
     const response = await createProduct({
       ...productdetails,
-      image: secureUrl,  // assuming schema field is 'images'
+      image: uploadedImages, // Store array of Cloudinary URLs
     });
 
     if (!response) {
-      throw ({ message: "Cannot upload product data" })
+      throw new Error("Cannot upload product data");
     }
 
     return response;
