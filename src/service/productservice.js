@@ -28,7 +28,7 @@ const createproducts = async (productdetails) => {
     // Save to database
     const response = await createProduct({
       ...productdetails,
-      image: uploadedImages, // Store array of Cloudinary URLs
+      images: uploadedImages, // Store array of Cloudinary URLs
     });
 
     if (!response) {
