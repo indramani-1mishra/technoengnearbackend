@@ -8,7 +8,7 @@ const LoginController = async (req, res) => {
     });
 
     if (response) {
-        res.cookie("authtoken", response.token, {
+        res.cookie("token", response.token, {
             httpOnly: true,
             secure: true,        // ✅ because it's localhost
             maxAge: 7 * 24 * 60 * 60 * 1000,
