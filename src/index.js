@@ -13,11 +13,19 @@ const allowedOrigins = [
   'https://anntechnobyraj.netlify.app'
 ];
 
-// ✅ CORS Middleware
-app.use(cors({
-  origin: allowedOrigins,
-  credentials: true // ✅ Allow cookies & credentials
-}));
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+
 
 // ✅ Body Parsers
 app.use(express.json());

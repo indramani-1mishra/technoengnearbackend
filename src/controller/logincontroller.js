@@ -8,16 +8,15 @@ const LoginController = async (req, res) => {
     });
 
     if (response) {
-      // ✅ Set cookie first
-     // const isProduction = process.env.NODE_ENV === 'production';
+      const isProduction = process.env.NODE_ENV === "production";
+
       res.cookie("token", response.token, {
         httpOnly: true,
-         secure: true,        // 👈 MUST for cross-origin HTTPS
-         sameSite: "None", 
-         maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+        secure: isProduction,         // ✅ only true on live (Render)
+        sameSite: isProduction ? "None" : "Lax",  // ✅ safer on local
+        maxAge: 7 * 24 * 60 * 60 * 1000
       });
 
-      // ✅ Then send response
       return res.status(201).json({
         message: response.message,
         userid: response.userId,
@@ -29,14 +28,14 @@ const LoginController = async (req, res) => {
   } catch (error) {
     console.log(error);
     return res.status(404).json({
-      message: "Error in user login in controllar",
+      message: "Error in user login in controller",
       error: error.message,
       data: {},
       status: 404,
     });
-    
   }
 };
+
 
 module.exports = {
   LoginController
