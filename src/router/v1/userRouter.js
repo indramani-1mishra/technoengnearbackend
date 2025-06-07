@@ -4,5 +4,5 @@ const { isLoggedIn } = require('../../validetor/isloggedin');
 const userrouter= express.Router();
 
 userrouter.post('/',createUserc);
-userrouter.get('/:id',isLoggedIn,getUserByIdc);
+userrouter.get('/:id',getUserByIdc);
 module.exports=userrouter;

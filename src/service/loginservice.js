@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const { JWT_SECREAT_KEY } = require("../config/serverconfig");
 
 const login = async (userdetails) => {
-   
+   console.log(JWT_SECREAT_KEY);
   try {
     const { email, password } = userdetails;
 
