@@ -8,14 +8,12 @@ const LoginController = async (req, res) => {
     });
 
     if (response) {
-      const isProduction = process.env.NODE_ENV === "production";
-
-      res.cookie("token", response.token, {
-        httpOnly: true,
-        secure: isProduction,         // ✅ only true on live (Render)
-        sameSite: isProduction ? "None" : "Lax",  // ✅ safer on local
-        maxAge: 7 * 24 * 60 * 60 * 1000
-      });
+        res.cookie("authtoken", response.token, {
+            httpOnly: true,
+            secure: true,        // ✅ because it's localhost
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+            sameSite: "None",     // ✅ change this from 'None' to 'Lax'
+          });
 
       return res.status(201).json({
         message: response.message,
