@@ -3,6 +3,7 @@ const cors = require('cors');
 const { PORT } = require('./config/serverconfig');
 const connectDb = require('./config/databaseconfig');
 const apirouter = require('./router/apiroutes');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(cors({
 // ✅ Body Parsers
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // ✅ API Routes
 app.use('/api', apirouter);

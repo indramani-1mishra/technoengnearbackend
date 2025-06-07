@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt= require('bcrypt')
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -7,16 +8,13 @@ const userSchema = new mongoose.Schema({
     trim: true,
     minlength: 2,
     maxlength: 50,
-    match: [/^[a-zA-Z ]+$/, 'Name should contain only letters and spaces'],
+   
   },
   password: {
     type: String,
     required: true,
     minlength: 6,
-    match: [
-      /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$/,
-      'Password must be at least 6 characters and include at least one letter and one number',
-    ],
+    
   },
   email: {
     type: String,
@@ -33,9 +31,22 @@ const userSchema = new mongoose.Schema({
     type: Number,
     required: true,
     unique: true,
-    match: [/^[6-9]\d{9}$/, 'Please enter a valid 10-digit Indian phone number'],
+   
   },
+  role:{
+    type:String,
+    enum:['user','admin'],
+    default:'user'
+  }
 });
+
+userSchema.pre('save', async function(next)
+{
+   if(this.isModified('password')){
+    this.password=  await bcrypt.hash(this.password,10);
+   }
+  next();
+})
 
 const UserModel = mongoose.model('User', userSchema);
 module.exports = UserModel;
