@@ -9,11 +9,11 @@ const LoginController = async (req, res) => {
 
     if (response) {
       // ✅ Set cookie first
-      const isProduction = process.env.NODE_ENV === 'production';
+     // const isProduction = process.env.NODE_ENV === 'production';
       res.cookie("token", response.token, {
         httpOnly: true,
-        secure: isProduction,
-        sameSite: isProduction ? "strict" : "lax",
+         secure: true,        // 👈 MUST for cross-origin HTTPS
+         sameSite: "None", 
          maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
       });
 
