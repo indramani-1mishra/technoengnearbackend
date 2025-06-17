@@ -53,7 +53,7 @@ const removeTolike = async (Productid, userid) => {
       throw { message: "No liked products found for this user" };
     }
    const exists = islikedproduct.likedProduct.some(
-  (item) => item?.product.toString() === Productid
+  (item) => item?._id.toString() === Productid
 );
 
 if (!exists) {
