@@ -48,28 +48,32 @@ const getlikedProduct = async () => {
 
 const removeTolike = async (Productid, userid) => {
   try {
-    const islikedproduct = await like.findOne({ user: userid });
+    let islikedproduct = await like.findOne({ user: userid }).populate("likedProduct");
+
     if (!islikedproduct) {
       throw { message: "No liked products found for this user" };
     }
-   const exists = islikedproduct.likedProduct.some(
-  (item) => item?._id.toString() === Productid
-);
 
-if (!exists) {
-  throw "This product is not liked by the user" ;
-}
+    const exists = islikedproduct.likedProduct.some(
+      (item) => item?._id.toString() === Productid
+    );
 
+    if (!exists) {
+      throw "This product is not liked by the user";
+    }
 
-    // Product remove karo
+    // Remove product from likedProduct array
     islikedproduct.likedProduct = islikedproduct.likedProduct.filter(
       (item) => item._id.toString() !== Productid
     );
 
-    // Save updated data
+    // Save the updated document
     await islikedproduct.save();
 
-    return islikedproduct;
+    // Re-populate to return latest data
+    const updatedLiked = await like.findOne({ user: userid }).populate("llikedProduct.product");
+
+    return updatedLiked;
   } catch (error) {
     throw { message: error };
   }
