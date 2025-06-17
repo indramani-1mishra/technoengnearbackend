@@ -71,7 +71,7 @@ const removeTolike = async (Productid, userid) => {
     await islikedproduct.save();
 
     // Re-populate to return latest data
-    const updatedLiked = await like.findOne({ user: userid }).populate("llikedProduct.product");
+    const updatedLiked = await like.findOne({ user: userid }).populate("likedProduct.product");
 
     return updatedLiked;
   } catch (error) {
