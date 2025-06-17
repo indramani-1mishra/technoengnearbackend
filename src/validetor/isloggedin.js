@@ -13,7 +13,7 @@ const isLoggedIn = (req, res, next) => {
 
     const decoded = jwt.verify(token, JWT_SECREAT_KEY);
     req.user = {
-     id:decoded._id,
+     id:decoded.userId,
      email:decoded.email,
      role:decoded.role
     }; 

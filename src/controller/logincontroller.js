@@ -8,12 +8,13 @@ const LoginController = async (req, res) => {
     });
 
     if (response) {
-        res.cookie("token", response.token, {
-            httpOnly: true,
-            secure: true,        // ✅ because it's localhost
-            maxAge: 7 * 24 * 60 * 60 * 1000,
-            sameSite: "None",     // ✅ change this from 'None' to 'Lax'
-          });
+       res.cookie("token", response.token, {
+      httpOnly: true,
+       secure: true,        // ✅ Render par ye zaroori hai
+      sameSite: "None",    // ✅ cross-site cookie allow karne ke liye
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+});
+
 
       return res.status(201).json({
         message: response.message,
