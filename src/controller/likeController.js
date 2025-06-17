@@ -57,7 +57,7 @@ const unLikecontroller = async (req, res) => {
     return res.status(201).json({
       message: response.message || "unLiked successfully",
       status: 201,
-      data: response.data || {},
+      data: response || {},
       error: ""
     });
   } catch (error) {
