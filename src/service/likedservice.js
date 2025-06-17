@@ -63,7 +63,7 @@ if (!exists) {
 
     // Product remove karo
     islikedproduct.likedProduct = islikedproduct.likedProduct.filter(
-      (item) => item.product.toString() !== Productid
+      (item) => item._id.toString() !== Productid
     );
 
     // Save updated data
