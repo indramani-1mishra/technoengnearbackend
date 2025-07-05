@@ -5,7 +5,7 @@ const like = require('../../schema/likedSchema');
 const likeRouter = express.Router();
 
 likeRouter.post('/:id',isLoggedIn,Likecontroller);
-likeRouter.get('/',getalllikes);
+likeRouter.get('/',isLoggedIn,getalllikes);
 likeRouter.delete('/unlike/:id',isLoggedIn,unLikecontroller);
 
 module.exports=likeRouter;
