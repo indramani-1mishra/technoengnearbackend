@@ -28,7 +28,7 @@ const Likecontroller = async (req, res) => {
 
 const getalllikes = async(req,res)=>
 {
-  console.log(req.user.id+"id");
+  
     try{
      const response = await getlikedProduct(req?.user?.id);
      return res.status(200).json({

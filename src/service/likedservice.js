@@ -34,18 +34,23 @@ const addToLike = async (Productid, userid) => {
   }
 };
 
+const mongoose = require("mongoose");
+
 const getlikedProduct = async (userid) => {
+ 
+
   try {
-    const response = await like.findOne({user:userid}).populate('likedProduct.product');
-    if (response) {
-      console.log(response);
-      return response;
-    }
-    throw { message: "error in finding get all likes" };
+    const response = await like.findOne({ user: new mongoose.Types.ObjectId(userid) });
+
+    
+    if (response) return response;
+
+    throw { message: "No liked product found for user." };
   } catch (error) {
     throw error;
   }
 };
+
 
 const removeTolike = async (Productid, userid) => {
   try {
