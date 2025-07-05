@@ -40,7 +40,7 @@ const getlikedProduct = async (userid) => {
  
 
   try {
-    const response = await like.findOne({ user: new mongoose.Types.ObjectId(userid) });
+    const response = await like.findOne({ user: new mongoose.Types.ObjectId(userid) }).populate("likedProduct.product");
 
     
     if (response) return response;
