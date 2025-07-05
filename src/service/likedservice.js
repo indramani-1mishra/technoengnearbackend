@@ -34,9 +34,9 @@ const addToLike = async (Productid, userid) => {
   }
 };
 
-const getlikedProduct = async () => {
+const getlikedProduct = async (userid) => {
   try {
-    const response = await like.find().populate('likedProduct.product');
+    const response = await like.findOne({user:userid}).populate('likedProduct.product');
     if (response) {
       return response;
     }
