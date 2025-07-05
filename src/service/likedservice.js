@@ -38,6 +38,7 @@ const getlikedProduct = async (userid) => {
   try {
     const response = await like.findOne({user:userid}).populate('likedProduct.product');
     if (response) {
+      console.log(response);
       return response;
     }
     throw { message: "error in finding get all likes" };
