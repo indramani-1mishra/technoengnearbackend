@@ -1,9 +1,16 @@
 // controller/productcontroller.js
 
+const { video, image } = require("../config/cloudneryconfig");
 const { createproducts, getProducts, getProduct, updateproducts, deleteproducts, getProductByCategoryOrName } = require("../service/productservice");
 
 // Create Product
 const createproductc = async (req, res) => {
+  console.log(req.files);
+   const files = req.files;
+  const image = files?.images;
+    const video = files?.video?.[0]?.path || '';
+
+   // console.log(image+"images");
   try {
     // Parse JSON strings if sent via FormData
     const features = req.body.features
@@ -47,7 +54,8 @@ const createproductc = async (req, res) => {
       specialFeatures,
       technicalSpecs,
       externalLinks,
-      image: req.files ? req.files : '',
+     image,
+      video,
     };
 
     const response = await createproducts(productData);

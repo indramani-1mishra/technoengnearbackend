@@ -12,7 +12,16 @@ const { isLoggedIn, isAdmin } = require('../../validetor/isloggedin');
 
 const productrouter = express.Router();
 
-productrouter.post('/',isLoggedIn,isAdmin, upload.array('images',3), createproductc);
+productrouter.post(
+  '/',
+  isLoggedIn,
+  isAdmin,
+  upload.fields([
+    { name: 'images', maxCount: 3 },
+    { name: 'video', maxCount: 1 },
+  ]),
+  createproductc
+);
 productrouter.get('/', getproductsc);
 productrouter.get('/search/:searchTerm', fetchProductByCategoryOrName); // ✅ fixed route
 productrouter.get('/:id',getproductbyidc);

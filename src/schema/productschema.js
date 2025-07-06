@@ -16,8 +16,11 @@ const productSchema = new mongoose.Schema({
     type: String,
     default: "ate (ANN Techno Engineer)"
   },
-
-
+ video:{
+     type:String,
+     
+ }
+,
 
   images: {
     type: [String],

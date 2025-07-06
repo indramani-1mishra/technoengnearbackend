@@ -8,10 +8,11 @@ const fs = require('fs');
 const createproducts = async (productdetails) => {
   try {
     const images = productdetails.image;
-
-    if (!images || images.length === 0) {
-      throw new Error('At least one image is required');
-    }
+    const {video} =productdetails;
+    console.log(images,"image",video,"video");
+    if (!productdetails.image || productdetails.image.length === 0) {
+  throw new Error("At least one image is required");
+}
 
     // Upload all images to Cloudinary
     const uploadedImages = await Promise.all(
@@ -24,11 +25,36 @@ const createproducts = async (productdetails) => {
         return uploadRes.secure_url;
       })
     );
+  const videourl = async (video) => {
+  try {
+    if (!video) return null;
+
+    const videoupload = await cloudinary.uploader.upload(video, {
+      resource_type: 'video', // Must for video files
+      folder: 'product-videos',
+    });
+
+    const secureUrl = videoupload.secure_url;
+
+    // Optional: Delete local file
+    if (fs.existsSync(video)) {
+      fs.unlinkSync(video);
+    }
+
+    return secureUrl;
+  } catch (err) {
+    console.error('Video upload failed:', err.message);
+    throw err;
+  }
+};
+
+const videoUrl1 = await videourl(video);
 
     // Save to database
     const response = await createProduct({
       ...productdetails,
-      images: uploadedImages, // ✅ Save Cloudinary URLs only
+      images: uploadedImages,
+      video:videoUrl1,
     });
 
     if (!response) {
@@ -72,6 +98,7 @@ const getProduct = async (productId) => {
 const updateproducts = async (productId, productdetails) => {
   try {
     const { image } = productdetails;
+    
 
     if (image) {
       // Upload to Cloudinary if new image is provided
@@ -83,6 +110,7 @@ const updateproducts = async (productId, productdetails) => {
         fs.unlinkSync(image); // delete local image file
       }
     }
+
 
     const updatedProduct = await updateProduct(productId, productdetails);
 
