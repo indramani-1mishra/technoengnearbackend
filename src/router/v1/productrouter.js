@@ -5,7 +5,8 @@ const {
   getproductbyidc,
   updateproductc,
   deleteproductc,
-  fetchProductByCategoryOrName
+  fetchProductByCategoryOrName,
+  uploadvideo
 } = require('../../controller/productcontroller');
 const upload = require('../../middleware/multer');
 const { isLoggedIn, isAdmin } = require('../../validetor/isloggedin');
@@ -27,5 +28,6 @@ productrouter.get('/search/:searchTerm', fetchProductByCategoryOrName); // ✅ f
 productrouter.get('/:id',getproductbyidc);
 productrouter.put('/:id', upload.single('image'), updateproductc);
 productrouter.delete('/:id', deleteproductc);
+productrouter.patch('/uploadvideo/:id',upload.single('video'),isLoggedIn,isAdmin,uploadvideo);
 
 module.exports = productrouter;

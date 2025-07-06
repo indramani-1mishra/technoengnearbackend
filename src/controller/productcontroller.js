@@ -1,7 +1,7 @@
 // controller/productcontroller.js
 
 const { video, image } = require("../config/cloudneryconfig");
-const { createproducts, getProducts, getProduct, updateproducts, deleteproducts, getProductByCategoryOrName } = require("../service/productservice");
+const { createproducts, getProducts, getProduct, updateproducts, deleteproducts, getProductByCategoryOrName, updateVideos } = require("../service/productservice");
 
 // Create Product
 const createproductc = async (req, res) => {
@@ -204,6 +204,29 @@ const fetchProductByCategoryOrName = async (req, res) => {
     return res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
+const uploadvideo = async (req, res) => {
+ // console.log(req.params.id,req?.file?.path);
+  try {
+    const response = await updateVideos({
+      id: req.params.id,
+      video: req?.file?.path, 
+    });
+
+    return res.status(201).json({
+      message: "Product video updated successfully",
+      data: response,
+      error: {},
+      status: 201,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Error in updating the video",
+      error: error.message || error,
+      data: {},
+      status: 500,
+    });
+  }
+};
 
 
 module.exports = {
@@ -212,5 +235,6 @@ module.exports = {
   getproductbyidc,
   updateproductc,
   deleteproductc,
-  fetchProductByCategoryOrName
+  fetchProductByCategoryOrName,
+  uploadvideo,
 };

@@ -30,12 +30,10 @@ const searchById = async (id) => {
     const response = await UserModel.findById(id);
     return response; // response can be null (and that’s okay)
   } catch (error) {
-    throw {
-      message: "Error in searching in repository layer",
-      originalError: error.message || error,
-    };
+      throw error
   }
 };
+
 
 
 

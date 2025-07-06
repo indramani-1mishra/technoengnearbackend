@@ -1,6 +1,6 @@
 // service/productService.js
 
-const { createProduct, getAllProducts, getProductById, updateProduct, deleteProduct, findProductByCategoryOrName } = require("../repository/productrepository");
+const { createProduct, getAllProducts, getProductById, updateProduct, deleteProduct, findProductByCategoryOrName, updatedvideo, updatedvideo5,  } = require("../repository/productrepository");
 const cloudinary = require("../config/cloudneryconfig");
 const fs = require('fs');
 
@@ -157,6 +157,28 @@ const getProductByCategoryOrName = async (searchTerm) => {
     throw error;
   }
 };
+ const updateVideos = async (data) => {
+  try {
+    const { id, video } = data;
+    const validId = await getProductById(id);
+    if (!validId) throw new Error("Invalid Product ID");
+    if (!video) throw new Error("Please upload a video");
+
+    const uploadVideo = await cloudinary.uploader.upload(video, {
+      resource_type: 'video',
+      folder: 'product-videos'
+    });
+
+    const videoUrl = uploadVideo.secure_url;
+    if (fs.existsSync(video)) fs.unlinkSync(video);
+
+    const updateResponse = await updatedvideo5({ id, video: videoUrl });
+    return updateResponse;
+  } catch (error) {
+    console.error("Video update failed:", error.message || error);
+    throw error;
+  }
+};
 
 module.exports = {
   createproducts,
@@ -164,5 +186,6 @@ module.exports = {
   getProduct,
   updateproducts,
   deleteproducts,
-  getProductByCategoryOrName
+  getProductByCategoryOrName,
+  updateVideos,
 };

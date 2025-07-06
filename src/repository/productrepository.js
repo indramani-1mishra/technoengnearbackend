@@ -82,11 +82,25 @@ const findProductByCategoryOrName = async (searchTerm) => {
   }
 };
 
+const updatedvideo5 = async ({ id, video }) => {
+  try {
+    const updatedata = await productModel.findByIdAndUpdate(
+      id,
+      { video: video },
+      { new: true }
+    );
+    return updatedata;
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   createProduct,
   getAllProducts,
   getProductById,
   updateProduct,
   deleteProduct,
-  findProductByCategoryOrName
+  findProductByCategoryOrName,
+  updatedvideo5
 };
