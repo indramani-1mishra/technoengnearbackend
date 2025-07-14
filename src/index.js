@@ -10,7 +10,9 @@ const app = express();
 // ✅ Allowed Frontend Origins
 const allowedOrigins = [
   'http://localhost:5173',
-  'https://anntechnobyraj.netlify.app'
+  'https://anntechnobyraj.netlify.app',
+  'https://anntechno.in/',
+  'https://www.anntechno.in'
 ];
 
 const corsOptions = {
