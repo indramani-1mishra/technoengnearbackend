@@ -11,9 +11,10 @@ const app = express();
 const allowedOrigins = [
   'http://localhost:5173',
   'https://anntechnobyraj.netlify.app',
-  'https://anntechno.in/',
-  'https://www.anntechno.in'
+  'https://anntechno.in',             // ✅ Remove trailing slash
+  'https://www.anntechno.in'          // ✅ This is good
 ];
+
 
 const corsOptions = {
   origin: function (origin, callback) {
